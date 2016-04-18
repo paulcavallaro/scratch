@@ -1,32 +1,22 @@
-; /usr/local/bin/nasm -f macho64 main.S && ld -macosx_version_min 10.7.0 -lSystem -o main main.o && ./main
+.global _main
 
-global start
+.text
 
-
-section .text
-
-start:
-        mov     rax, 0x2000004 ; write
-        mov     rdi, 1 ; stdout
-        mov     rsi, msg
-        mov     rdx, msg.len
+_main:
+        movq    $0x2000004, %rax        # write
+        movq    $1, %rdi                # stdout
+        movabsq $msg, %rsi
+        movabsq $msglen, %rdx
         syscall
 
-        mov     rax, 0x2000004 ; write
-        mov     rdi, 1 ; stdout
-        mov     rsi, msg
-        mov byte     [rsi], 74  ; Overwrite H with J
-        mov     rdx, msg.len
-        syscall
 exit:
-        mov     rax, 0x2000001 ; exit
-        mov     rdi, 0
+        movq    $0x2000001, %rax        # exit
+        movq    $0, %rdi
         syscall
 
 
-section .data
+.data
 
-msg:    db      "Hello, world!", 10
-.len:   equ     $ - msg
-over:    db      "Jell", 10
-.len:   equ     $ - over
+msg:
+        .asciz "Hello, world!\n"
+        .equ msglen, . - msg

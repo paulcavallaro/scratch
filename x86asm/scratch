@@ -1,0 +1,10 @@
+        mov     rax, 0x2000004 ; write
+        mov     rdi, 1 ; stdout
+        mov     rsi, msg
+        mov byte        [rsi], 74  ; Overwrite H with J
+        mov byte        [rsi+1], 111 ; Overwrite e with o
+        mov byte        [rsi+4], 121 ; Overwrite o with y
+        mov
+
+        mov     rdx, msg.len
+        syscall
