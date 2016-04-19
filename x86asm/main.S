@@ -20,6 +20,12 @@ _main:
         sub             $9, %rdx
         syscall
 
+        movq            $0x2000004, %rax        # write
+        movq            $1, %rdi                # stdout
+        movabsq         $jolly, %rsi
+        movabsq         $jollylen, %rdx
+        syscall
+
 exit:
         movq            $0x2000001, %rax        # exit
         movq            $0, %rdi
@@ -31,3 +37,6 @@ exit:
 msg:
         .asciz          "Hello, world!\n"
         .equ            msglen, . - msg
+jolly:
+        .asciz          "Jolly\n"
+        .equ            jollylen, . - jolly
